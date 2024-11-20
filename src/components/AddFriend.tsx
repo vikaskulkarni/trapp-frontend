@@ -1,72 +1,114 @@
 import React, { useState } from "react";
+import { FormContainer, FormGroup } from "./Container";
+import CryptoJS from "crypto-js";
 
 interface AddFriendProps {
-  addFriend: (friend: { name: string; size: string; email: string }) => void;
+  addFriend: (friend: {
+    name: string;
+    size: string;
+    email: string;
+  }) => Promise<boolean>;
 }
 
 const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
   const [name, setName] = useState<string>("");
   const [size, setSize] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [emailError, setEmailError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const hashedEmail = CryptoJS.SHA256(email).toString();
     if (name && size) {
-      addFriend({ name, size, email });
-      setName("");
-      setSize("");
-      setEmail("");
+      const success = await addFriend({ name, size, email: hashedEmail });
+      if (success) {
+        setName("");
+        setSize("");
+        setEmail("");
+      }
     }
   };
 
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailValue)) {
+      setEmailError("Invalid email format");
+    } else {
+      setEmailError(null);
+    }
+  };
+
+  const isFormValid = name && size && email && !emailError;
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="w-85">
-        <div className="bg-gray-200 bg-opacity-40 px-4 border-b text-center text-2xl">
-          Register Tee Size
-        </div>
-        <div>
+    <FormContainer onSubmit={handleSubmit} className="">
+      <h4 className="text-white">Register Tee Size</h4>
+      <FormGroup>
+        <div className="flex items-center w-full">
+          <span className="text-red-500">*</span>
           <input
             type="text"
-            id="name"
             placeholder="Name"
             value={name}
+            onFocus={(e) => (e.target.placeholder = "")}
+            onBlur={(e) => (e.target.placeholder = "Name")}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="flex-grow ml-1"
           />
         </div>
-        <div>
+      </FormGroup>
+
+      <FormGroup>
+        <div className="flex items-center w-full">
+          <span className="text-red-500">*</span>
           <input
-            type="email"
-            id="email"
+            type="text"
             placeholder="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            onFocus={(e) => (e.target.placeholder = "")}
+            onBlur={(e) => (e.target.placeholder = "Email")}
+            onChange={handleEmailChange}
+            className="flex-grow ml-1"
           />
         </div>
-        <div>
+      </FormGroup>
+
+      <FormGroup>
+        <div className="flex items-center w-full">
+          <span className="text-red-500">*</span>
           <select
             id="size"
             value={size}
             onChange={(e) => setSize(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="w-full rounded mt-1 ml-1"
           >
-            <option value="">Select Size</option>
+            <option value="">--Select Size--</option>
             <option value="Small (38 in)">Small (38 in)</option>
             <option value="Medium (40 in)">Medium (40 in)</option>
             <option value="Large (42 in)">Large (42 in)</option>
             <option value="Extra Large (44 in)">Extra Large (44 in)</option>
           </select>
         </div>
+      </FormGroup>
+
+      <FormGroup>
         <button
+          disabled={!isFormValid}
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded mt-2"
+          className={` ${
+            isFormValid
+              ? "text-white transition-opacity duration-200 hover:opacity-70"
+              : "text-gray-400 cursor-not-allowed"
+          }`}
         >
-          Submit
+          Register
         </button>
-      </div>
-    </form>
+      </FormGroup>
+      {emailError && <div className="text-red-500">{emailError}</div>}
+    </FormContainer>
   );
 };
 
