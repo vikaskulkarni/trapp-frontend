@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/trapp-frontend/static/css/main.e6c13ad2.css",
-    "main.js": "/trapp-frontend/static/js/main.4799ea26.js",
+    "main.css": "/trapp-frontend/static/css/main.937cd180.css",
+    "main.js": "/trapp-frontend/static/js/main.126a31a6.js",
     "static/js/453.f61d5f3b.chunk.js": "/trapp-frontend/static/js/453.f61d5f3b.chunk.js",
     "index.html": "/trapp-frontend/index.html",
-    "main.e6c13ad2.css.map": "/trapp-frontend/static/css/main.e6c13ad2.css.map",
-    "main.4799ea26.js.map": "/trapp-frontend/static/js/main.4799ea26.js.map",
+    "main.937cd180.css.map": "/trapp-frontend/static/css/main.937cd180.css.map",
+    "main.126a31a6.js.map": "/trapp-frontend/static/js/main.126a31a6.js.map",
     "453.f61d5f3b.chunk.js.map": "/trapp-frontend/static/js/453.f61d5f3b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e6c13ad2.css",
-    "static/js/main.4799ea26.js"
+    "static/css/main.937cd180.css",
+    "static/js/main.126a31a6.js"
   ]
 }
