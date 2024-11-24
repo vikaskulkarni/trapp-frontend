@@ -7,6 +7,7 @@ interface AddFriendProps {
     name: string;
     size: string;
     email: string;
+    priceRange?: string;
   }) => Promise<boolean>;
 }
 
@@ -14,19 +15,30 @@ const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
   const [name, setName] = useState<string>("");
   const [size, setSize] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [priceRange, setPriceRange] = useState("");
+
   const [emailError, setEmailError] = useState<string | null>(null);
+  const [registering, setRegistering] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setRegistering(true);
     const hashedEmail = CryptoJS.SHA256(email).toString();
     if (name && size) {
-      const success = await addFriend({ name, size, email: hashedEmail });
+      const success = await addFriend({
+        name,
+        size,
+        email: hashedEmail,
+        priceRange,
+      });
       if (success) {
         setName("");
         setSize("");
         setEmail("");
+        setPriceRange("");
       }
     }
+    setRegistering(false);
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,9 +57,14 @@ const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
 
   return (
     <FormContainer onSubmit={handleSubmit} className="">
-      <h4 className="text-white">Register Tee Size</h4>
+      <h4>Register Tee Size</h4>
+      <span>
+        <a href="https://printo.in/categories/t-shirts/customizable-products/custom-t-shirts">
+          Custom t-shirt Link
+        </a>
+      </span>
       <FormGroup>
-        <div className="flex items-center w-full">
+        <div className="flex items-center w-full c-h">
           <span className="text-red-500">*</span>
           <input
             type="text"
@@ -62,7 +79,7 @@ const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
       </FormGroup>
 
       <FormGroup>
-        <div className="flex items-center w-full">
+        <div className="flex items-center w-full c-h">
           <span className="text-red-500">*</span>
           <input
             type="text"
@@ -77,7 +94,7 @@ const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
       </FormGroup>
 
       <FormGroup>
-        <div className="flex items-center w-full">
+        <div className="flex items-center w-full c-h">
           <span className="text-red-500">*</span>
           <select
             id="size"
@@ -95,6 +112,38 @@ const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
       </FormGroup>
 
       <FormGroup>
+        <div className="flex items-center w-full c-h">
+          <label className="ml-3 flex w-full">
+            Price Preference (<span className="text-xs">optional</span>):
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="priceRange"
+              value="400₹-600₹"
+              checked={priceRange === "400₹-600₹"}
+              onChange={(e) => setPriceRange(e.target.value)}
+            />
+            <span className="text-emerald-300 text-xs">
+              400₹<div>to</div>600₹
+            </span>
+          </label>
+          <label className="ml-4">
+            <input
+              type="radio"
+              name="priceRange"
+              value="600₹-800₹"
+              checked={priceRange === "600₹-800₹"}
+              onChange={(e) => setPriceRange(e.target.value)}
+            />
+            <span className="text-emerald-300 text-xs">
+              600₹<div>to</div>800₹
+            </span>
+          </label>
+        </div>
+      </FormGroup>
+
+      <FormGroup>
         <button
           disabled={!isFormValid}
           type="submit"
@@ -104,10 +153,20 @@ const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
               : "text-gray-400 cursor-not-allowed"
           }`}
         >
-          Register
+          {registering ? (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-center">
+                <output className="spinner-border text-primary"></output>
+              </div>
+            </div>
+          ) : (
+            "Register"
+          )}
         </button>
       </FormGroup>
-      {emailError && <div className="text-red-500">{emailError}</div>}
+      {emailError && (
+        <div className="mt-[-15px] text-red-500">{emailError}</div>
+      )}
     </FormContainer>
   );
 };

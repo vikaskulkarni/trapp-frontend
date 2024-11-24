@@ -4,7 +4,7 @@ import { ListContainer } from "./Container";
 const MapComponent = () => {
   return (
     <ListContainer>
-      <h4 className="text-white">Destination: Dandeli</h4>
+      <h4>Destination: Dandeli</h4>
       <MapContainer
         center={[15.30414, 74.61303]}
         zoom={13}

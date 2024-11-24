@@ -16,6 +16,10 @@ export const FormContainer = styled.form`
   padding: 1rem 2rem;
   height: 30rem;
 
+  h4 {
+    color: #f7ca05;
+  }
+
   h2 {
     margin-top: 2rem;
     font-size: 1.5rem;
@@ -61,8 +65,10 @@ export const ListContainer = styled.div`
   background: #333;
 
   padding: 1rem 2rem;
-  height: 30rem;
 
+  h4 {
+    color: #f7ca05;
+  }
   h2 {
     margin-top: 2rem;
     font-size: 1.5rem;
@@ -83,6 +89,7 @@ export const ListContainer = styled.div`
       border-collapse: collapse;
       thead {
         th {
+          font-weight: 600;
           text-align: left;
           padding: 0.6rem;
           color: white;

@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Wendy+One&display=swap');
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,7 +13,104 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.c-h {
+  height: 2.5rem;
+  line-height: 1rem;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.spinner-border {
+  --mdb-spinner-animation-speed: 1.2s;
+}
+
+a:hover {
+  color: rgb(0, 200, 255) !important;
+}
+
+.title {
+  text-align: center;
+}
+aside {
+  background: repeating-linear-gradient(
+    35deg,
+    hsl(343 100% 50%) 0px 2px,
+    hsl(23 100% 50%) 0px 4px
+  );
+  mix-blend-mode: multiply;
+  animation: none 40000ms infinite linear;
+}
+
+.slogan-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.title h3 {
+  font-size:2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  
+  color: #F7CA05;
+  text-shadow: 0 6px 4px rgba(0,0,0,0.4),0 3px 11px #fff;
+  letter-spacing: -2px;
+}
+
+.title h3:hover {
+  animation: glitch .4s linear infinite;
+  cursor: pointer;
+}
+
+.title-container h1 {
+  font-size: 1.3rem;
+  font-family: 'Gambetta', serif;
+  transition: 700ms ease;
+  color: PaleGoldenRod;
+  outline: none;
+}
+
+.title-container h1:hover {
+  letter-spacing: 1px;
+}
+
+@keyframes move {
+  100% {
+    transform: translate(41px, 0px);
+  }
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
