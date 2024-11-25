@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FormContainer, FormGroup } from "./Container";
 import CryptoJS from "crypto-js";
+import DOMPurify from "dompurify";
 
 interface AddFriendProps {
   addFriend: (friend: {
@@ -23,13 +24,19 @@ const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setRegistering(true);
-    const hashedEmail = CryptoJS.SHA256(email).toString();
-    if (name && size) {
+    const sanitizedEmail = DOMPurify.sanitize(email);
+    const hashedEmail = CryptoJS.SHA256(sanitizedEmail).toString();
+    const sanitizedName = DOMPurify.sanitize(name);
+    const sanitizedSize = DOMPurify.sanitize(size);
+
+    const sanitizedPriceRange = DOMPurify.sanitize(priceRange);
+
+    if (sanitizedName && sanitizedSize) {
       const success = await addFriend({
-        name,
-        size,
+        name: sanitizedName,
+        size: sanitizedSize,
         email: hashedEmail,
-        priceRange,
+        priceRange: sanitizedPriceRange,
       });
       if (success) {
         setName("");

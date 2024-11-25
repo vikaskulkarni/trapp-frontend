@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { GlobalStyles } from "./styles/global";
 import axios from "axios";
 import AddFriend from "./components/AddFriend";
@@ -80,7 +80,7 @@ const App: React.FC = ({}) => {
     }
     try {
       const response = await axios.post(`${backendUrl}/friends`, friend);
-      setFriends([...friends, response.data]);
+      setFriends([response.data, ...friends]);
     } catch (error) {
       console.error("Error adding friend:", error);
       return false;
@@ -120,6 +120,17 @@ const App: React.FC = ({}) => {
           </MDBCol>
         </MDBRow>
       </MDBContainer>
+      {/* <button
+        className="fixed bottom-4 right-4 bg-blue-500 text-white p-4 rounded-full shadow-lg"
+        onClick={toggleChat}
+      >
+        Chat
+      </button>
+      {isChatOpen && (
+        <div className="fixed bottom-16 right-4 w-80 h-96 bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden flex flex-col">
+          <Chat />
+        </div>
+      )} */}
     </>
   );
 };

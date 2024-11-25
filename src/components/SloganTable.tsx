@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MDBTable, MDBTableBody, MDBRow, MDBCol } from "mdb-react-ui-kit";
 import { ListContainer } from "./Container";
+import DOMPurify from "dompurify";
 
 export interface Slogan {
   id: number;
@@ -70,7 +71,8 @@ const SloganTable: React.FC<SloganProps> = ({
 
   const handleAddSlogan = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newSlogan.trim() === "") return;
+    const sanitizedSlogan = DOMPurify.sanitize(newSlogan);
+    if (sanitizedSlogan.trim() === "") return;
     if (newSlogans.length > 50) {
       setErrorMessage("Only 50 slogans are allowed.");
       return false;
@@ -78,7 +80,7 @@ const SloganTable: React.FC<SloganProps> = ({
     setAdding(true);
     try {
       const response = await axios.post(`${backendUrl}/slogans`, {
-        slogan: newSlogan,
+        slogan: sanitizedSlogan,
       });
       if (response.status === 201) {
         if (response.data && response.data.error) {
