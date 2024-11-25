@@ -64,10 +64,13 @@ const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
 
   return (
     <FormContainer onSubmit={handleSubmit} className="">
-      <h4>Register Tee Size</h4>
+      <h4 className="mb-0">Register Tee Size</h4>
       <span>
-        <a href="https://printo.in/categories/t-shirts/customizable-products/custom-t-shirts">
-          Custom t-shirt Link
+        <a
+          href="https://printo.in/categories/t-shirts/customizable-products/custom-t-shirts"
+          className="text-sm underline"
+        >
+          Custom t-shirt
         </a>
       </span>
       <FormGroup>

@@ -31,6 +31,10 @@ a:hover {
   color: rgb(0, 200, 255) !important;
 }
 
+a {
+  color: rgb(0, 255, 238) !important;
+}
+
 .title {
   text-align: center;
 }
