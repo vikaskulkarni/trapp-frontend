@@ -99,6 +99,15 @@ const SloganTable: React.FC<SloganProps> = ({
 
   return (
     <ListContainer className="overflow-auto max-h-[20rem]">
+      <div
+        style={{
+          color: "#e7aaaa",
+          fontSize: "0.9rem",
+        }}
+      >
+        Incognito mode or disabled cookies will impact the{" "}
+        <span className="text-blue-300">Like/Dislike</span> functionality.
+      </div>
       <div className="flex items-center mb-2">
         <h4 className="mr-4 mb-[-25px]">
           Tee Shirt Slogans (<span className="text-sm">{slogans.length}</span>)

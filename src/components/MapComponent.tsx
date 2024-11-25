@@ -1,5 +1,30 @@
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { ListContainer } from "./Container";
+
+const ResetViewButton: React.FC<{ position: [number, number] }> = ({
+  position,
+}) => {
+  const map = useMap();
+
+  const handleResetView = () => {
+    map.setView(position, 13);
+  };
+
+  return (
+    <button
+      onClick={handleResetView}
+      style={{
+        position: "absolute",
+        top: 5,
+        right: 10,
+        zIndex: 1000,
+        textDecoration: "underline",
+      }}
+    >
+      Reset Location
+    </button>
+  );
+};
 
 const MapComponent = () => {
   return (
@@ -9,7 +34,7 @@ const MapComponent = () => {
         center={[15.30414, 74.61303]}
         zoom={13}
         scrollWheelZoom={false}
-        style={{ height: "24rem" }}
+        className="map-height"
       >
         <TileLayer
           attribution=""
@@ -20,6 +45,7 @@ const MapComponent = () => {
             Dandeli <br /> River Rafting.
           </Popup>
         </Marker>
+        <ResetViewButton position={[15.30414, 74.61303]} />
       </MapContainer>
     </ListContainer>
   );

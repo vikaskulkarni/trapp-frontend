@@ -60,6 +60,14 @@ export const FormGroup = styled.div`
 `;
 
 export const ListContainer = styled.div`
+  .map-height {
+    height: 24.2rem;
+  }
+  @media (max-width: 992px) {
+    .map-height {
+      height: 22.5rem;
+    }
+  }
   border: 0;
   border-radius: 8px;
   background: #333;

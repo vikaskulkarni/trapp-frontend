@@ -124,7 +124,7 @@ const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
       <FormGroup>
         <div className="flex items-center w-full c-h">
           <label className="ml-3 flex w-full">
-            Price Preference (<span className="text-xs">optional</span>):
+            <span className="text-xs">Price (optional) :</span>
           </label>
           <label>
             <input

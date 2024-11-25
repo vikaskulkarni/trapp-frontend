@@ -3,6 +3,7 @@
 /node_modules
 /build
 
+github-cert.pem
 # Logs
 logs
 *.log
