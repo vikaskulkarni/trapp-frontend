@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { GlobalStyles } from "./styles/global";
 import axios from "axios";
 import AddFriend from "./components/AddFriend";
@@ -8,13 +8,76 @@ import { MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
 import MapComponent from "./components/MapComponent";
 import SloganTable, { Slogan } from "./components/SloganTable";
 
-const App: React.FC = ({}) => {
+interface TimeRemaining {
+  total: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+const App: React.FC = () => {
   const [friends, setFriends] = useState<Friend[]>([]);
   const [slogans, setSlogans] = useState<Slogan[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingSlogans, setLoadingSlogans] = useState<boolean>(false);
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  const [registrationTimer, setRegistrationTimer] = useState("00:00:00");
+  const [destinationTimer, setDestinationTimer] = useState("00:00:00");
+  const registrationRef = useRef<NodeJS.Timeout | null>(null);
+  const destinationRef = useRef<NodeJS.Timeout | null>(null);
+
+  const getTimeRemaining = (e: Date): TimeRemaining => {
+    const total = Date.parse(e.toString()) - Date.parse(new Date().toString());
+    const seconds = Math.floor((total / 1000) % 60);
+    const minutes = Math.floor((total / 1000 / 60) % 60);
+    const hours = Math.floor((total / 1000 / 60 / 60) % 24);
+    const days = Math.floor(total / (1000 * 60 * 60 * 24));
+    return {
+      total,
+      days,
+      hours,
+      minutes,
+      seconds,
+    };
+  };
+
+  useEffect(() => {
+    const startTimer = (
+      e: Date,
+      setTimerCallback: (timer: string) => void
+    ): void => {
+      let { total, days, hours, minutes, seconds } = getTimeRemaining(e);
+      if (total >= 0) {
+        setTimerCallback(
+          `<span style="color: rgb(153 246 228);">${days}d</span>:<span style="color: rgb(254 205 211);">${hours}h</span>:<span style="color: rgb(187 247 208);">${minutes}m</span>:<span style="color: rgb(191 219 254);">${seconds}s</span>`
+        );
+      }
+    };
+    const clearTimer = (
+      e: Date,
+      setTimerCallback: (timer: string) => void,
+      ref: React.MutableRefObject<NodeJS.Timeout | null>
+    ): void => {
+      if (ref.current) clearInterval(ref.current as NodeJS.Timeout);
+      const id = setInterval(() => {
+        startTimer(e, setTimerCallback);
+      }, 1000);
+      ref.current = id;
+    };
+
+    clearTimer(
+      new Date("2024-11-27T16:00:00"),
+      setRegistrationTimer,
+      registrationRef
+    );
+    clearTimer(
+      new Date("2024-12-05T21:00:00"),
+      setDestinationTimer,
+      destinationRef
+    );
+  }, []);
 
   useEffect(() => {
     const generateSessionId = () => {
@@ -100,11 +163,14 @@ const App: React.FC = ({}) => {
 
         <MDBRow>
           <MDBCol md="4" className="col-12 pb-2">
-            <AddFriend addFriend={addFriend} />
+            <AddFriend
+              addFriend={addFriend}
+              registrationTimer={registrationTimer}
+            />
             {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
           </MDBCol>
           <MDBCol md="4" className="col-12 pb-2">
-            <MapComponent />
+            <MapComponent destinationTimer={destinationTimer} />
           </MDBCol>
           <MDBCol md="4" className="col-12 pb-2">
             <TShirtDisplay friends={friends} loading={loading} />

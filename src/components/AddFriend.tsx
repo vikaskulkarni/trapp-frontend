@@ -10,9 +10,13 @@ interface AddFriendProps {
     email: string;
     priceRange?: string;
   }) => Promise<boolean>;
+  registrationTimer: string;
 }
 
-const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
+const AddFriend: React.FC<AddFriendProps> = ({
+  addFriend,
+  registrationTimer,
+}) => {
   const [name, setName] = useState<string>("");
   const [size, setSize] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -64,7 +68,14 @@ const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
 
   return (
     <FormContainer onSubmit={handleSubmit} className="">
-      <h4 className="mb-0">Register Tee Size</h4>
+      <h4 className="mb-0">
+        Register Tee Size
+        <span
+          className="ml-1 text-xs"
+          dangerouslySetInnerHTML={{ __html: registrationTimer }}
+        ></span>
+      </h4>
+
       <span>
         <a
           href="https://printo.in/categories/t-shirts/customizable-products/custom-t-shirts"

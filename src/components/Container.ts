@@ -13,7 +13,7 @@ export const FormContainer = styled.form`
   border-radius: 8px;
   background: #333;
 
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   height: 30rem;
 
   h4 {
@@ -72,7 +72,7 @@ export const ListContainer = styled.div`
   border-radius: 8px;
   background: #333;
 
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
 
   h4 {
     color: #f7ca05;

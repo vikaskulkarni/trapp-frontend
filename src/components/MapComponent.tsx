@@ -19,6 +19,7 @@ const ResetViewButton: React.FC<{ position: [number, number] }> = ({
         right: 10,
         zIndex: 1000,
         textDecoration: "underline",
+        color: "rgb(37 99 235)",
       }}
     >
       Reset Location
@@ -26,10 +27,21 @@ const ResetViewButton: React.FC<{ position: [number, number] }> = ({
   );
 };
 
-const MapComponent = () => {
+interface MapComponentProps {
+  destinationTimer: string;
+}
+
+const MapComponent: React.FC<MapComponentProps> = ({ destinationTimer }) => {
   return (
     <ListContainer>
-      <h4>Destination: Dandeli</h4>
+      <h4 className="mb-0">Destination: Dandeli</h4>
+      <span className="text-sm text-yellow-200">
+        6th to 8th DECEMBER
+        <span
+          className="ml-1 text-xs"
+          dangerouslySetInnerHTML={{ __html: destinationTimer }}
+        ></span>
+      </span>
       <MapContainer
         center={[15.30414, 74.61303]}
         zoom={12}
