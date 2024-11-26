@@ -70,7 +70,7 @@ const AddFriend: React.FC<AddFriendProps> = ({ addFriend }) => {
           href="https://printo.in/categories/t-shirts/customizable-products/custom-t-shirts"
           className="text-sm underline"
         >
-          Custom t-shirt
+          Custom t-shirt details
         </a>
       </span>
       <FormGroup>

@@ -17,7 +17,9 @@ interface TShirtDisplayProps {
 const TShirtDisplay: React.FC<TShirtDisplayProps> = ({ friends, loading }) => {
   return (
     <ListContainer className="overflow-auto h-[30rem]">
-      <h4>Registered Sizes</h4>
+      <h4>
+        Registered Sizes<span className="ml-1 text-sm">{friends.length}</span>
+      </h4>
       {loading ? (
         <div className="flex items-center justify-center h-full">
           <div className="text-center">

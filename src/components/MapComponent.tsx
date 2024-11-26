@@ -7,7 +7,7 @@ const ResetViewButton: React.FC<{ position: [number, number] }> = ({
   const map = useMap();
 
   const handleResetView = () => {
-    map.setView(position, 13);
+    map.setView(position, 12);
   };
 
   return (
@@ -32,7 +32,7 @@ const MapComponent = () => {
       <h4>Destination: Dandeli</h4>
       <MapContainer
         center={[15.30414, 74.61303]}
-        zoom={13}
+        zoom={12}
         scrollWheelZoom={false}
         className="map-height"
       >

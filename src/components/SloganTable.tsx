@@ -110,7 +110,8 @@ const SloganTable: React.FC<SloganProps> = ({
       </div>
       <div className="flex items-center mb-2">
         <h4 className="mr-4 mb-[-25px]">
-          Tee Shirt Slogans (<span className="text-sm">{slogans.length}</span>)
+          Tee Shirt Slogans
+          <span className="ml-1 text-sm">{slogans.length}/50</span>
         </h4>
         <form
           onSubmit={handleAddSlogan}
