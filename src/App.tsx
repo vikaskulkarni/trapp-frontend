@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { GlobalStyles } from "./styles/global";
 import axios from "axios";
 import AddFriend from "./components/AddFriend";
@@ -19,14 +19,25 @@ interface TimeRemaining {
 const App: React.FC = () => {
   const [friends, setFriends] = useState<Friend[]>([]);
   const [slogans, setSlogans] = useState<Slogan[]>([]);
+
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingSlogans, setLoadingSlogans] = useState<boolean>(false);
+
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
   const [registrationTimer, setRegistrationTimer] = useState("00:00:00");
   const [destinationTimer, setDestinationTimer] = useState("00:00:00");
+
   const registrationRef = useRef<NodeJS.Timeout | null>(null);
   const destinationRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [combinedCounts, setCombinedCounts] = useState({
+    typeCounts: {},
+    colorCounts: {},
+    priceRangeCounts: {},
+  });
 
   const getTimeRemaining = (e: Date): TimeRemaining => {
     const total = Date.parse(e.toString()) - Date.parse(new Date().toString());
@@ -42,6 +53,28 @@ const App: React.FC = () => {
       seconds,
     };
   };
+
+  const countOccurrences = (key: keyof Friend, friendsData: Friend[]) => {
+    return friendsData.reduce((acc, friendData) => {
+      const value = friendData[key];
+      if (value) {
+        acc[value] = (acc[value] || 0) + 1;
+      }
+      return acc;
+    }, {} as Record<string, number>);
+  };
+
+  const updateCounts = useCallback((friends: Friend[]) => {
+    const newTypeCounts = countOccurrences("type", friends);
+    const newColorCounts = countOccurrences("color", friends);
+    const newPriceRangeCounts = countOccurrences("priceRange", friends);
+
+    setCombinedCounts({
+      typeCounts: newTypeCounts,
+      colorCounts: newColorCounts,
+      priceRangeCounts: newPriceRangeCounts,
+    });
+  }, []);
 
   useEffect(() => {
     const startTimer = (
@@ -60,7 +93,7 @@ const App: React.FC = () => {
       setTimerCallback: (timer: string) => void,
       ref: React.MutableRefObject<NodeJS.Timeout | null>
     ): void => {
-      if (ref.current) clearInterval(ref.current as NodeJS.Timeout);
+      if (ref.current) clearInterval(ref.current);
       const id = setInterval(() => {
         startTimer(e, setTimerCallback);
       }, 1000);
@@ -103,7 +136,7 @@ const App: React.FC = () => {
     };
 
     fetchSlogans();
-  }, [backendUrl]);
+  }, [backendUrl, updateCounts]);
 
   useEffect(() => {
     const loadFriends = async () => {
@@ -111,6 +144,7 @@ const App: React.FC = () => {
       try {
         const response = await axios.get(`${backendUrl}/friends`);
         setFriends(response.data);
+        updateCounts(response.data);
       } catch (error) {
         console.error("Error loading friends:", error);
       } finally {
@@ -118,7 +152,7 @@ const App: React.FC = () => {
       }
     };
     loadFriends();
-  }, [backendUrl]);
+  }, [backendUrl, updateCounts]);
 
   useEffect(() => {
     const handleClick = () => {
@@ -144,7 +178,9 @@ const App: React.FC = () => {
     friend["priceRange"] = friend.priceRange || "<Not Specified>";
     try {
       const response = await axios.post(`${backendUrl}/friends`, friend);
-      setFriends([response.data, ...friends]);
+      const updatedFriends = [response.data, ...friends];
+      setFriends(updatedFriends);
+      updateCounts(updatedFriends);
     } catch (error) {
       console.error("Error adding friend:", error);
       return false;
@@ -174,7 +210,11 @@ const App: React.FC = () => {
             <MapComponent destinationTimer={destinationTimer} />
           </MDBCol>
           <MDBCol md="4" className="col-12 pb-2">
-            <TShirtDisplay friends={friends} loading={loading} />
+            <TShirtDisplay
+              friends={friends}
+              loading={loading}
+              combinedCounts={combinedCounts}
+            />
           </MDBCol>
         </MDBRow>
         <MDBRow>

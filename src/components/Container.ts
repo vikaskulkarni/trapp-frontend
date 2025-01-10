@@ -94,7 +94,7 @@ export const ListContainer = styled.div`
     }
     table {
       width: 100%;
-      margin-top: 2rem;
+
       border-collapse: collapse;
       thead {
         th {

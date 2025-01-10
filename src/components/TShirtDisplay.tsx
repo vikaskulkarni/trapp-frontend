@@ -11,12 +11,23 @@ export interface Friend {
   priceRange?: string;
 }
 
+type CombinedCounts = {
+  typeCounts: Record<string, number>;
+  colorCounts: Record<string, number>;
+  priceRangeCounts: Record<string, number>;
+};
+
 interface TShirtDisplayProps {
   friends: Friend[];
   loading: boolean;
+  combinedCounts: CombinedCounts;
 }
 
-const TShirtDisplay: React.FC<TShirtDisplayProps> = ({ friends, loading }) => {
+const TShirtDisplay: React.FC<TShirtDisplayProps> = ({
+  friends,
+  loading,
+  combinedCounts,
+}) => {
   const getColorCode = (colorName: string): React.CSSProperties => {
     let colorCode = "";
     switch (colorName.toLowerCase()) {
@@ -51,7 +62,8 @@ const TShirtDisplay: React.FC<TShirtDisplayProps> = ({ friends, loading }) => {
   return (
     <ListContainer className="overflow-auto h-[38rem]">
       <h4>
-        Registered Sizes<span className="ml-1 text-sm">{friends.length}</span>
+        Registered Sizes
+        <span className="ml-1 text-sm text-white">{friends.length}</span>
       </h4>
       {loading ? (
         <div className="flex items-center justify-center h-full">
@@ -63,6 +75,54 @@ const TShirtDisplay: React.FC<TShirtDisplayProps> = ({ friends, loading }) => {
         </div>
       ) : (
         <div>
+          <div className="votes-table">
+            <MDBTable bordered>
+              <MDBTableHead>
+                <tr>
+                  <th>Votes 4 Type</th>
+                  <th>Votes 4 Color</th>
+                  <th></th>
+                </tr>
+              </MDBTableHead>
+              <MDBTableBody>
+                <tr>
+                  <td>
+                    <ul>
+                      <li>
+                        Round: {combinedCounts.typeCounts["Round Neck"] || 0}
+                      </li>
+                      <li>
+                        Collared: {combinedCounts.typeCounts["Collared"] || 0}
+                      </li>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      <li>
+                        Sky Blue: {combinedCounts.colorCounts["Sky Blue"] || 0}
+                      </li>
+                      <li>
+                        Royal Blue:{" "}
+                        {combinedCounts.colorCounts["Royal Blue"] || 0}
+                      </li>
+                      <li>Red: {combinedCounts.colorCounts["Red"] || 0}</li>
+                      <li>
+                        Maroon: {combinedCounts.colorCounts["Maroon"] || 0}
+                      </li>
+                      <li>White: {combinedCounts.colorCounts["White"] || 0}</li>
+                    </ul>
+                  </td>
+                  <td style={{ width: "43%" }}>
+                    <span className="underline">Note</span>:{" "}
+                    <span style={{ color: "#FF5733" }}>
+                      Based on the votes, we will finalize ONE Type and ONE
+                      Color for ALL
+                    </span>
+                  </td>
+                </tr>
+              </MDBTableBody>
+            </MDBTable>
+          </div>
           <MDBTable bordered className="table-custom">
             <MDBTableHead>
               <tr>

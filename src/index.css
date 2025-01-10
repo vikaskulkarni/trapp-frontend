@@ -131,3 +131,16 @@ aside {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.votes-table {
+  table {
+    font-size: 0.75rem;
+    td{
+      padding: 0.2rem !important;
+    }
+  }
+  ul {
+    margin-bottom: 0;
+    padding-left: 0;
+  }
+}

@@ -119,14 +119,6 @@ const AddFriend: React.FC<AddFriendProps> = ({
         ></span>
       </h4>
 
-      {/* <span>
-        <a
-          href="https://printo.in/categories/t-shirts/customizable-products/custom-t-shirts"
-          className="text-sm underline"
-        >
-          Custom t-shirt details
-        </a>
-      </span> */}
       <FormGroup>
         <div className="flex items-center w-full c-h">
           <span className="text-red-500">*</span>
