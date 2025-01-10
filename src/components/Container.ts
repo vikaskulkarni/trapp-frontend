@@ -14,7 +14,7 @@ export const FormContainer = styled.form`
   background: #333;
 
   padding: 1rem 1.5rem;
-  height: 30rem;
+  height: 38rem;
 
   h4 {
     color: #f7ca05;
@@ -60,8 +60,9 @@ export const FormGroup = styled.div`
 `;
 
 export const ListContainer = styled.div`
+  height: 38rem;
   .map-height {
-    height: 24.2rem;
+    height: 30rem;
   }
   @media (max-width: 992px) {
     .map-height {

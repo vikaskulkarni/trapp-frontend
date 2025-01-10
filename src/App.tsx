@@ -68,12 +68,12 @@ const App: React.FC = () => {
     };
 
     clearTimer(
-      new Date("2024-11-27T16:00:00"),
+      new Date("2025-01-19T16:00:00"),
       setRegistrationTimer,
       registrationRef
     );
     clearTimer(
-      new Date("2024-12-05T21:00:00"),
+      new Date("2025-02-21T21:00:00"),
       setDestinationTimer,
       destinationRef
     );
@@ -137,10 +137,11 @@ const App: React.FC = () => {
       setErrorMessage("Email already exists.");
       return false;
     }
-    if (friends.length >= 25) {
-      setErrorMessage("Only 25 friends are allowed.");
+    if (friends.length >= 30) {
+      setErrorMessage("Only 30 friends are allowed.");
       return false;
     }
+    friend["priceRange"] = friend.priceRange || "<Not Specified>";
     try {
       const response = await axios.post(`${backendUrl}/friends`, friend);
       setFriends([response.data, ...friends]);

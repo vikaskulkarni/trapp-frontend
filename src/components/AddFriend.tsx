@@ -8,6 +8,8 @@ interface AddFriendProps {
     name: string;
     size: string;
     email: string;
+    type: string;
+    color: string;
     priceRange?: string;
   }) => Promise<boolean>;
   registrationTimer: string;
@@ -17,13 +19,48 @@ const AddFriend: React.FC<AddFriendProps> = ({
   addFriend,
   registrationTimer,
 }) => {
+  const [selectedColor, setSelectedColor] = useState("");
+
   const [name, setName] = useState<string>("");
   const [size, setSize] = useState<string>("");
+  const [type, setType] = useState<string>("");
+  const [color, setColor] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [priceRange, setPriceRange] = useState("");
 
   const [emailError, setEmailError] = useState<string | null>(null);
   const [registering, setRegistering] = useState<boolean>(false);
+
+  interface ColorChangeEvent extends React.ChangeEvent<HTMLSelectElement> {
+    target: HTMLSelectElement & EventTarget;
+  }
+
+  const handleColorChange = (e: ColorChangeEvent) => {
+    const selectedValue = e.target.value;
+    setColor(selectedValue);
+
+    let colorCode = "";
+    switch (selectedValue) {
+      case "Sky Blue":
+        colorCode = "#87CEEB";
+        break;
+      case "Royal Blue":
+        colorCode = "#4169E1";
+        break;
+      case "Red":
+        colorCode = "#FF0000";
+        break;
+      case "Maroon":
+        colorCode = "#800000";
+        break;
+      case "White":
+        colorCode = "#FFFFFF";
+        break;
+      default:
+        colorCode = "";
+    }
+    setSelectedColor(colorCode);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,6 +69,8 @@ const AddFriend: React.FC<AddFriendProps> = ({
     const hashedEmail = CryptoJS.SHA256(sanitizedEmail).toString();
     const sanitizedName = DOMPurify.sanitize(name);
     const sanitizedSize = DOMPurify.sanitize(size);
+    const sanitizedType = DOMPurify.sanitize(type);
+    const sanitizedColor = DOMPurify.sanitize(color);
 
     const sanitizedPriceRange = DOMPurify.sanitize(priceRange);
 
@@ -40,11 +79,15 @@ const AddFriend: React.FC<AddFriendProps> = ({
         name: sanitizedName,
         size: sanitizedSize,
         email: hashedEmail,
+        type: sanitizedType,
+        color: sanitizedColor,
         priceRange: sanitizedPriceRange,
       });
       if (success) {
         setName("");
         setSize("");
+        setType("");
+        setColor("");
         setEmail("");
         setPriceRange("");
       }
@@ -76,14 +119,14 @@ const AddFriend: React.FC<AddFriendProps> = ({
         ></span>
       </h4>
 
-      <span>
+      {/* <span>
         <a
           href="https://printo.in/categories/t-shirts/customizable-products/custom-t-shirts"
           className="text-sm underline"
         >
           Custom t-shirt details
         </a>
-      </span>
+      </span> */}
       <FormGroup>
         <div className="flex items-center w-full c-h">
           <span className="text-red-500">*</span>
@@ -128,6 +171,62 @@ const AddFriend: React.FC<AddFriendProps> = ({
             <option value="Medium (40 in)">Medium (40 in)</option>
             <option value="Large (42 in)">Large (42 in)</option>
             <option value="Extra Large (44 in)">Extra Large (44 in)</option>
+          </select>
+        </div>
+      </FormGroup>
+
+      <FormGroup>
+        <div className="flex items-center w-full c-h">
+          <span className="text-red-500">*</span>
+          <select
+            id="type"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            className="w-full rounded mt-1 ml-1"
+          >
+            <option value="">--Vote for Type--</option>
+            <option value="Round Neck">Round Neck</option>
+            <option value="Collared">Collared</option>
+          </select>
+        </div>
+      </FormGroup>
+
+      <FormGroup>
+        <div className="flex items-center w-full c-h">
+          <span className="text-red-500">*</span>
+          <select
+            id="color"
+            value={color}
+            onChange={handleColorChange}
+            className="w-full rounded mt-1 ml-1 font-bold"
+            style={{
+              color: selectedColor,
+              backgroundColor:
+                selectedColor === "#FFFFFF" ? "#000000" : "#FFFFFF",
+            }}
+          >
+            <option value="">--Vote for Color--</option>
+            <option value="Sky Blue" style={{ color: "#87CEEB" }}>
+              Sky Blue
+            </option>
+            <option value="Royal Blue" style={{ color: "#4169E1" }}>
+              Royal Blue
+            </option>
+            <option value="Red" style={{ color: "#FF0000" }}>
+              Red
+            </option>
+            <option value="Maroon" style={{ color: "#800000" }}>
+              Maroon
+            </option>
+            <option
+              value="White"
+              style={{
+                color: "#FFFFFF",
+                backgroundColor: "#000000",
+              }}
+            >
+              White
+            </option>
           </select>
         </div>
       </FormGroup>

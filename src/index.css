@@ -118,3 +118,16 @@ aside {
     transform: rotate(360deg);
   }
 }
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.flash {
+  animation: flash 1.7s infinite;
+  background: linear-gradient(90deg, #ff0, rgb(255, 123, 0), #0ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

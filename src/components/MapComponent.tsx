@@ -7,7 +7,7 @@ const ResetViewButton: React.FC<{ position: [number, number] }> = ({
   const map = useMap();
 
   const handleResetView = () => {
-    map.setView(position, 12);
+    map.setView(position, 14);
   };
 
   return (
@@ -34,17 +34,18 @@ interface MapComponentProps {
 const MapComponent: React.FC<MapComponentProps> = ({ destinationTimer }) => {
   return (
     <ListContainer>
-      <h4 className="mb-0">Destination: Dandeli</h4>
+      <h4 className="mb-0">Destination: V.B.Darbar, Bijapur</h4>
       <span className="text-sm text-yellow-200">
-        6th to 8th DECEMBER
+        <span className="flash">22 & 23 FEBRUARY</span>
         <span
           className="ml-1 text-xs"
           dangerouslySetInnerHTML={{ __html: destinationTimer }}
         ></span>
       </span>
+
       <MapContainer
-        center={[15.30414, 74.61303]}
-        zoom={12}
+        center={[16.82717, 75.72399]}
+        zoom={14}
         scrollWheelZoom={false}
         className="map-height"
       >
@@ -52,12 +53,12 @@ const MapComponent: React.FC<MapComponentProps> = ({ destinationTimer }) => {
           attribution=""
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[15.30414, 74.61303]}>
+        <Marker position={[16.82717, 75.72399]}>
           <Popup>
             Dandeli <br /> River Rafting.
           </Popup>
         </Marker>
-        <ResetViewButton position={[15.30414, 74.61303]} />
+        <ResetViewButton position={[16.82717, 75.72399]} />
       </MapContainer>
     </ListContainer>
   );
