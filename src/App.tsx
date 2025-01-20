@@ -171,8 +171,8 @@ const App: React.FC = () => {
       setErrorMessage("Email already exists.");
       return false;
     }
-    if (friends.length >= 30) {
-      setErrorMessage("Only 30 friends are allowed.");
+    if (friends.length >= 40) {
+      setErrorMessage("Only 40 friends are allowed.");
       return false;
     }
     friend["priceRange"] = friend.priceRange || "<Not Specified>";
